@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -29,7 +30,7 @@ jobs:
         run: |
           npm run build
         env:
-          VITE_BASE: ${{ vars.VITE_BASE || '/' }}
+          VITE_BASE: ${{ vars.VITE_BASE || format('/{0}/', github.event.repository.name) }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
